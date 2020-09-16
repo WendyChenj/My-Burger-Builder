@@ -1,0 +1,42 @@
+.Toolbar {
+    width: 100%;
+    height: 56px;
+    display: flex;
+    flex-flow: row;
+    justify-content: space-between;
+    background-color: #4a3f35;
+    align-items: center;
+    position: fixed;
+    z-index: 90;
+    top:0;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+
+.BurgerLogo {
+    height: 50px;
+    background-color: white;
+    border-radius: 5px;
+}
+
+.BurgerLogo img {
+    height: 80%;
+    padding: 5px 5px;
+}
+
+a {
+    padding: 10px;
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+@media (max-width: 499px) {
+    .BurgerLogo {
+        display: none;
+    }
+    .toolbarNav {
+        display: none;
+    }
+}
+
