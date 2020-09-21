@@ -8,7 +8,7 @@ const CheckOutSummary = (props) => {
             <h1>We hope you enjoy your meal!</h1>
             <Burger ingredients = {props.ingredients} />
             <button className='Button Danger' onClick={props.cancel}>CANCEL</button>
-            <button className='Button Success' onClick={props.continue}>CONTINUE</button>
+            <button className='Button Success' onClick={props.continue}>{props.isAuth ? 'CONTINUE': 'SIGN IN'}</button>
         </div>
     );
 }

@@ -12,7 +12,7 @@ const Sidedrawer = (props) => {
             <Backdrop show={props.show} clicked={props.clicked} className='sidedrawerBackdrop' />
             <div className={props.show? 'sidedrawer Open': 'sidedrawer Close'}>
                 <img src={Logo} alt='MyBurger'className='sidedrawerLogo'/>
-                <NavigationItems />
+                <NavigationItems isAuth={props.isAuth} />
             </div>
         </div>
         

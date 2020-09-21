@@ -2,6 +2,7 @@ import React from 'react';
 import './BuildControls.css';
 import './OrderButton.css';
 import './BuildControl/BuildControl.css';
+// import { Button } from '@material-ui/core';
 
 const controls = [
     { label: 'Salad', type: 'salad' },
@@ -16,7 +17,7 @@ const BuildControl = (props) => {
     return (
         <div className="BuildControl">
             <div className='Label'>{props.label}</div>
-            <button className='Less ControlButton' onClick={props.removed} disabled={props.disabled}>Less</button>
+            <button  className='Less ControlButton' onClick={props.removed} disabled={props.disabled}>Less</button>
             <button className='More ControlButton' onClick={props.added}>More</button>
         </div>
     );

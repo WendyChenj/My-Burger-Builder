@@ -1,11 +1,13 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
+import * as actionCreator from '../../../store/action/order';
 
 import Address from '../../../components/FormData/Address/Address';
-import * as actionCreator from '../../../store/action/order';
 import BurgerIngredient from '../../../components/Burger/BurgerIngredients/BurgerIngredient';
 import './ContactData.css';
 
-import { connect } from 'react-redux';
+
 
 class ContactData extends React.Component {
     state = {
@@ -190,6 +192,10 @@ class ContactData extends React.Component {
                 if (!identifier.valid) {
                     identifier.valid = this.checkValidity(event.target.value, this.state.customers[inputIdentifier][secondIdentifier].required);
                 }
+
+                if (inputIdentifier === 'street') {
+                    newCustomer.billing_address = {...newCustomer.street, selectedOption: 'Yes'}
+                }
             }
         } else {
             let identifier = newCustomer[inputIdentifier];
@@ -202,8 +208,6 @@ class ContactData extends React.Component {
         if (secondIdentifier) {
             newCustomer[inputIdentifier].totalValid = this.validate(inputIdentifier, newCustomer);
         } 
-
-        // console.log('[new customer valid]', newCustomer[inputIdentifier].totalValid);
 
         let formValidCheck = true;
         for (let eachInfo in this.state.customers) {
@@ -226,17 +230,13 @@ class ContactData extends React.Component {
 
         for (let info in customerInfo) {
             if (info === 'name' || info === 'street' || info === 'billing_address') {
-                console.log('inside the second layer', customerInfo[info]);
                 for (let subinfo in customerInfo[info]) {
-                    console.log(subinfo);
                     customerInfo[info][subinfo] = this.state.customers[info][subinfo].value;
                 }
             } else {
-                console.log(info);
                 customerInfo[info] = this.state.customers[info].value;
             }
         }
-        console.log('customer data:', customerInfo);
 
         const orderData = {
             ingredients: this.props.ingredients,
@@ -244,7 +244,7 @@ class ContactData extends React.Component {
             customers: customerInfo,
         };
 
-        this.props.proceedToPay(orderData);
+        this.props.proceedToPay(orderData, this.props.token);
     }
 
     render() {
@@ -262,10 +262,12 @@ class ContactData extends React.Component {
             </div>
         );
 
+        let redirectPurchased = this.props.purchased ? <Redirect to='/' /> : null;
+
         return (
             <div className='form-all'>
+                {redirectPurchased}
                 <ul className='page-section'>
-
                     <li id='cid_1' className='form-input-wide'>
                         <div className='form-header-group header-large'>
                             <h2 className='form-header'>
@@ -366,7 +368,15 @@ class ContactData extends React.Component {
                                         <label className='form-sub-label'>No</label>  
                                     </div>  
                                 </div>
-                                {this.state.customers.billing_address.selectedOption === 'No' ? <Address title = 'Shipping Address'/>: null}
+                                {this.state.customers.billing_address.selectedOption === 'No' ? 
+                                <Address title = 'Shipping Address'
+                                streetValue={this.state.customers.billing_address.streetAddress.value} streetChanged={(event) => this.changedInputHandler(event, 'billing_address', 'streetAddress')}
+                                street2Value={this.state.customers.billing_address.streetAddress_line2.value} street2Changed={(event) => this.changedInputHandler(event, 'billing_address', 'streetAddress_line2')}
+                                cityValue={this.state.customers.billing_address.city.value} cityChanged={(event) => this.changedInputHandler(event, 'billing_address', 'city')}
+                                stateValue={this.state.customers.billing_address.state.value} stateChanged={(event) => this.changedInputHandler(event, 'billing_address', 'state')}
+                                countryValue={this.state.customers.billing_address.country.value} countryChanged={(event) => this.changedInputHandler(event, 'billing_address', 'country')}
+                                codeValue={this.state.customers.billing_address.postal_code.value} codeChanged={(event) => this.changedInputHandler(event, 'billing_address', 'postal_code')}
+                                />: null}
                             </div>
 
                             <div className='contact-form-line'>
@@ -407,10 +417,6 @@ class ContactData extends React.Component {
                             </div> 
                         </form>
                     </li>
-{/* 
-                    <li id='cid_4' className='form-button-group'>
-                        
-                    </li> */}
                 </ul>
             </div>
         );
@@ -420,11 +426,13 @@ class ContactData extends React.Component {
 const mapStateToProps = state => ({
     ingredients: state.burgerBuilder.ingredients,
     totalPrice: state.burgerBuilder.totalPrice,
+    purchased: state.order.purchased,
+    token: state.auth.token,
 });
 
 const mapDispatchToProps = dispatch => {
     return {
-        proceedToPay: (orderData) => dispatch(actionCreator.proceedToPay(orderData))
+        proceedToPay: ( orderData, token ) => dispatch(actionCreator.proceedToPay(orderData, token))
     }
 }
 

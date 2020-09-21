@@ -8,6 +8,7 @@ import BurgerOrderSummary from '../../components/Burger/BurgerOrderSummary/Burge
 import Spinner from '../../components/UI/Spinner/Spinner';
 import { connect } from 'react-redux';
 import * as actionCreator from '../../store/action/burgerBuilder';
+import * as orderActionCreator from '../../store/action/order';
 // import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 
 class BurgerBuilder extends Component {
@@ -18,7 +19,6 @@ class BurgerBuilder extends Component {
     };
 
     componentDidMount () {
-        console.log(this.props.ingredients);
         this.props.fetchIngredients();
     }
 
@@ -39,20 +39,17 @@ class BurgerBuilder extends Component {
     }
 
     purchasingCancelledHandler = () => {
-        console.log('[Burger Builder] purchasing cancel', this.props.ingredients);
         this.setState ({
             purchasing: false,
         });
     }
 
     purchasingContinueHandler = () => {
+        this.props.onInitPurchase();
         this.props.history.push({pathname: '/checkOut'});
     }
 
     render() {
-
-        console.log('[BurgerBuilder] ingredients', this.props.ingredients);
-
         // create an array with true/false disabled info based on the amount of ingredients
         let burger = <Spinner />;
         let buildControls = null;
@@ -105,7 +102,8 @@ const mapStateToProps = state => ({
 const mapDispatchToAction = dispatch => ({
     addIngredient: (ing) => dispatch(actionCreator.add(ing)),
     removeIngredient: (ing) => dispatch(actionCreator.remove(ing)),
-    fetchIngredients: () => dispatch(actionCreator.fetchIngredients())
+    fetchIngredients: () => dispatch(actionCreator.fetchIngredients()),
+    onInitPurchase: () => dispatch(orderActionCreator.purchaseInit())
 });
 
 export default connect(mapStateToProps, mapDispatchToAction)(BurgerBuilder);

@@ -1,0 +1,184 @@
+.signin-box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 400px;
+    height: 400px;
+    padding: 40px;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, .6);
+    border-radius: 10px;
+}
+
+.signin-box p {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0 0 30px;
+    padding: 0;
+    color: #ffffff;
+}
+
+.signin-box .userInput-box {
+    position: relative;
+}
+
+.signin-box .userInput-box input {
+    width: 100%;
+    padding: 10px 0;
+    font-size: 16px;
+    margin-bottom: 30px;
+    color: #ffffff;
+    border: none;
+    border-bottom: 1px solid #ffffff;
+    background: transparent;
+    outline: none;
+}
+
+.signin-box .userInput-box label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 10px 0;
+    font-size: 16px;
+    color: #ffffff;
+    pointer-events: none;
+    
+}
+
+.signin-box .userInput-box input:focus ~ label,
+.signin-box .userInput-box input:valid ~ label {
+    transition: 0.5s;
+    top: -20px;
+    color: #b9ac92;
+    font-size: 12px;
+}
+
+.signin-box form button {
+    position: relative;
+    display: inline-block;
+    padding: 10px 20px;
+    width: 200px;
+    color: #b9ac92;
+    background-color: rgba(0, 0, 0, .6);
+    font-size: 16px;
+    /* when an element's content is too big to fit in */
+    overflow: hidden;
+    transition: 0.5s;
+    margin-top: 20px;
+    letter-spacing: 4px;
+    border: none;
+}
+
+.signin-box form button:hover {
+    background-color: #b9ac92;
+    color: #ffffff;
+    border-radius: 5px;
+    border-color: #b9ac92;
+    /* adds shadow effects around an element's frame */
+    box-shadow: 0 0 5px #b9ac92,
+                0 0 25px #b9ac92,
+                0 0 50px #b9ac92,
+                0 0 100px #b9ac92;
+}
+
+.signin-box button span {
+    position: absolute;
+    display: block;
+}
+
+.signin-box button span:nth-child(1) {
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, #b9ac92);
+    animation: btn-anim1 2s linear infinite;
+}
+
+@keyframes btn-anim1 {
+    0% { left: -100%; }
+    50%, 100% { left: 100%; }
+}
+
+.signin-box button span:nth-child(2) {
+    top: -100%;
+    right: 0;
+    width: 3px;
+    height: 100%;
+    background: linear-gradient(180deg, transparent, #b9ac92);
+    animation: btn-anim2 2s linear infinite;
+    animation-delay: 0.5s;
+
+}
+
+@keyframes btn-anim2 {
+    0% { top: -100%; }
+    50%, 100% { top: 100%; }
+}
+
+.signin-box button span:nth-child(3) {
+    right: -100%;
+    bottom: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(-90deg, transparent, #b9ac92);
+    animation: btn-anim3 2s linear infinite;
+    animation-delay: 1s;
+}
+
+@keyframes btn-anim3 {
+    0% { right: -100%; }
+    50%, 100% { right: 100%; }
+}
+
+.signin-box button span:nth-child(4) {
+    bottom: -100%;
+    left: 0;
+    width: 3px;
+    height: 100%;
+    background: linear-gradient(360deg, transparent, #b9ac92);
+    animation: btn-anim4 2s linear infinite;
+    animation-delay: 1.5s;
+}
+
+@keyframes btn-anim4 {
+    0% { bottom: -100%; }
+    50%, 100% { bottom: 100%; }
+}
+
+.signin-box .newUser-box {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    margin-top: 20px;
+    margin-left: -40px;
+    border-top: 1px solid grey;
+}
+
+.newUser-box p {
+    margin: 30px 40px 20px;
+    padding: 0;
+}
+
+.newUser-box button {
+    position: relative;
+    display: inline-block;
+    width: 200px;
+    padding: 10px 20px;
+    color: #ffffff;
+    background-color:  rgba(0, 0, 0, .6);
+    font-size: 16px;
+    margin-left: 40px;
+    border-radius: 20px;
+    border: none;
+    letter-spacing: normal;
+}
+
+.newUser-box button:hover {
+    color: #b9ac92;
+    border-color: #b9ac92;
+}
+
+
+
+

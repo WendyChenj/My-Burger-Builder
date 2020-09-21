@@ -8,6 +8,8 @@ const NavigationItems = (props) => {
         <ol className='NavigationItems'>
             <NavigationItem link="/">Burger Builder</NavigationItem>
             <NavigationItem link="/orders">Orders</NavigationItem>
+            {props.isAuth ? <NavigationItem link="/logout">Log Out </NavigationItem>
+             : <NavigationItem link='/auth'>Account</NavigationItem>}
         </ol>
     );
 }
