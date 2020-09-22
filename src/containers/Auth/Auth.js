@@ -116,9 +116,17 @@ class Auth extends React.Component {
             
         });
 
+        let redirectAuth = null;
+
+        if (this.props.building && this.props.isAuthenticate) {
+            redirectAuth = <Redirect to='/checkout' />
+        } else if (this.props.isAuthenticate) {
+            redirectAuth = <Redirect to='/' />
+        } 
+
         return (
             <div className='signin-box'> 
-                {this.props.isAuthenticate ? <Redirect to='/' /> : null}
+                {redirectAuth}
                 {this.state.isSignUp ? <p>Sign up to MyBurger</p> : <p>Sign in to MyBurger</p> }
                 <form onSubmit={this.signUpHandler}>
                     {signInForm}
@@ -148,6 +156,7 @@ const mapStateToProps = state => {
     return {
         error: state.auth.error,
         isAuthenticate: state.auth.token !== null,
+        building: state.burgerBuilder.building,
     }
 }
 

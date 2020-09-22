@@ -12,12 +12,12 @@ let item_price = {
 const initialState = {
     ingredients: null,
     totalPrice: REGULAR_PRICE,
+    building: false,
 };
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.ADD_INGREDIENT:
-            console.log(action);
             return {
                 ...state,
                 ingredients: {
@@ -25,6 +25,7 @@ const reducer = (state = initialState, action) => {
                     [action.ingredient]: state.ingredients[action.ingredient] + 1,
                 },
                 totalPrice: state.totalPrice + item_price[action.ingredient], 
+                building: true,
             };
 
         case actionTypes.REMOVE_INGREDIENT:
@@ -41,7 +42,8 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 ingredients: action.ingredients,
-                totalPrice: REGULAR_PRICE
+                totalPrice: REGULAR_PRICE,
+                building: false,
             }
         
         default:
