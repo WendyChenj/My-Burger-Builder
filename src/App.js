@@ -8,9 +8,15 @@ import ContactData from './containers/CheckOut/ContactData/ContactData';
 import Auth from './containers/Auth/Auth';
 import Logout from './containers/Auth/Logout/Logout';
 import { BrowserRouter, Switch, Route } from 'react-router-dom'; 
-
+import { connect } from 'react-redux';
+import * as actions from './store/action/auth';
 
 class App extends Component {
+
+  componentDidMount () {
+    this.props.onAuthStatus();
+  }
+
   render() {
     return (
       <BrowserRouter>
@@ -29,4 +35,10 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapDispatchToProps = dispatch => {
+  return {
+    onAuthStatus: () => dispatch(actions.checkAuthStatus()),
+  }
+}
+
+export default connect(null, mapDispatchToProps)(App);
