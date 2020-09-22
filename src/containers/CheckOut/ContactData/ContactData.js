@@ -242,6 +242,7 @@ class ContactData extends React.Component {
             ingredients: this.props.ingredients,
             price: this.props.totalPrice,
             customers: customerInfo,
+            userId: this.props.userId,
         };
 
         this.props.proceedToPay(orderData, this.props.token);
@@ -428,6 +429,7 @@ const mapStateToProps = state => ({
     totalPrice: state.burgerBuilder.totalPrice,
     purchased: state.order.purchased,
     token: state.auth.token,
+    userId: state.auth.userId,
 });
 
 const mapDispatchToProps = dispatch => {
