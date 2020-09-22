@@ -45,7 +45,7 @@ class BurgerBuilder extends Component {
     }
 
     purchasingContinueHandler = () => {
-        this.props.onInitPurchase();
+        // this.props.onInitPurchase();
         this.props.history.push({pathname: '/checkOut'});
     }
 

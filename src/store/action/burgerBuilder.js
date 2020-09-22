@@ -28,5 +28,6 @@ export const fetchIngredients = () => {
             .then(response => {
                 dispatch(fetch(response.data));
             })
+            .catch(error => console.log(error));
     };
 }
