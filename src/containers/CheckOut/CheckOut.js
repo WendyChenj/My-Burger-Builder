@@ -1,51 +1,55 @@
 import React from 'react';
 import CheckOutSummary from '../../components/CheckOutSummary/CheckOutSummary';
-import { Redirect } from 'react-router-dom';
+import { Redirect, useHistory } from 'react-router-dom';
 
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 
-class CheckOut extends React.Component {
+const CheckOut = () => {
 
-    cancelledOrderHandler = () => {
-        this.props.history.goBack();
+    const { ingredients, purchased, isAuthenticate } = useSelector( state => ({
+        ingredients: state.burgerBuilder.ingredients,
+        // totalPrice: state.burgerBuilder.totalPrice,
+        purchased: state.order.purchased,
+        isAuthenticate: state.auth.token !== null,
+        reorder: state.order.reorder,
+    }));
+
+    // const dispatch = useDispatch();
+
+    let history = useHistory();
+
+    const cancelledOrderHandler = () => {
+        history.goBack();
     }
 
-    continueOrderHandler = () => {
-        if (this.props.isAuthenticate) {
-            this.props.history.push({pathname: '/checkOut/contactData'});
+    const continueOrderHandler = () => {
+        if (isAuthenticate) {
+            history.push({pathname: '/checkOut/contactData'});
         } else {
-            this.props.history.push({pathname: '/auth'});
+            history.push({pathname: '/auth'});
         }
     }
 
-    render() {
-        let checkOutPage = <Redirect to= {{pathname: '/'}} />;
-        if (this.props.ingredients) {
-            let redirectPurchase = this.props.purchased ? <Redirect to='/' />: null;
-            checkOutPage = (<div>
-                {redirectPurchase}
-                <CheckOutSummary 
-                ingredients={this.props.ingredients} 
-                cancel = {this.cancelledOrderHandler}
-                continue = {this.continueOrderHandler}
-                isAuth = {this.props.isAuthenticate}
-                /> 
-              </div> )
+    let checkOutPage = <Redirect to= {{pathname: '/'}} />;
+    if (ingredients) {
+        let redirectPurchase = purchased ? <Redirect to='/' />: null;
+        checkOutPage = (
+          <div>
+            {redirectPurchase}
+            <CheckOutSummary 
+                ingredients={ingredients} 
+                cancel = {cancelledOrderHandler}
+                continue = {continueOrderHandler}
+                isAuth = {isAuthenticate}
+            /> 
+          </div> )
         }
 
-        return (
-            <div>
-                {checkOutPage}  
-            </div>
-        );
-    }
+    return (
+        <div>
+            {checkOutPage}  
+        </div>
+    );
 }
 
-const mapStateToProps = state => ({
-    ingredients: state.burgerBuilder.ingredients,
-    totalPrice: state.burgerBuilder.totalPrice,
-    purchased: state.order.purchased,
-    isAuthenticate: state.auth.token !== null,
-});
-
-export default connect(mapStateToProps)(CheckOut);
+export default CheckOut;

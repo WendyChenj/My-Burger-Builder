@@ -1,45 +1,69 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import Order from '../../components/Order/Order';
-import * as actions from '../../store/action/order';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { fetchOrders } from '../../store/action/order';
+import { reorderBurger } from '../../store/action/burgerBuilder';
+import OrderCard from '../../components/UI/OrderCard/OrderCard';
 
-class Orders extends React.Component {
+// material-ui
+import { Grid } from '@material-ui/core';
 
-    componentDidMount() {
-        this.props.onFetchOrders();
+const Orders = () => {
+
+    const { orders } = useSelector( state => ({
+        orders: state.order.orders,
+    }));
+
+    const dispatch = useDispatch();
+
+    
+    useEffect(() => {
+        dispatch(fetchOrders());
+        // eslint-disable-next-line
+    }, []);
+
+    let history = useHistory();
+
+    console.log(history);
+
+    const reorderHandler = (event, ings) => {
+        event.preventDefault();
+        dispatch(reorderBurger(ings));
+        history.push('/checkOut');
     }
 
-    render() {
+    let order = null;
 
-        let order = null;
-
-        if (this.props.orders === null) {
-            order = <p>No order yet!</p>
-        } else {
-            order = this.props.orders.map(ord => {
-                return <Order key = {ord.id} ingredients = {ord.ingredients} price={ord.price} />
-            });
-        }
+    if (orders === null) {
+        order = <p>No order yet!</p>
+    } else {
+        order = orders.map(ord => {
+            return (
+                <Grid item xs={12} sm={12} md={6} lg={4}  key={ord.id}>
+                    <OrderCard  ingredients={ord.ingredients} price={ord.price} 
+                       reorder={(event) => reorderHandler(event, ord.ingredients)} 
+                    />
+                </Grid>
+            );
+        });
+    }
 
         return (
             <div>
-                {order}
+                <Grid container>
+                    <Grid item xs={2} >
+                    </Grid>
+                    <Grid item xs={8}>
+                        <Grid container spacing={2}>
+                               {order}
+                        </Grid>
+                    </Grid>
+                    <Grid item xs={2} >
+                    </Grid>
+                </Grid>   
             </div>
         );
     }
-}
-
-const mapStateToProps = state => {
-    return {
-        orders: state.order.orders,
-    }
-}
-
-const mapDispatchToProps = dispatch => {
-    return {
-        onFetchOrders: () => dispatch(actions.fetchOrders())
-    }
-}
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(Orders);
+export default Orders;

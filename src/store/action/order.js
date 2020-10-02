@@ -65,6 +65,7 @@ export const fetchOrders = () => {
     return dispatch => {
         dispatch(fetchOrderStart());
         const queryParams = '?auth=' + localStorage.getItem("token") + '&orderBy="userId"&equalTo="' + localStorage.getItem("userId") + '"';
+        console.log("start fetch orders");
         axios.get('/orders.json' + queryParams)
             .then(res => {
                 const fetchedOrders = [];
@@ -74,7 +75,6 @@ export const fetchOrders = () => {
                         id: key,
                     });
                 };
-                console.log('fetchOrders', fetchedOrders);
                 dispatch(fetchOrderSuccess(fetchedOrders));
             })
             .catch( error => dispatch( fetchOrderFail(error))); 

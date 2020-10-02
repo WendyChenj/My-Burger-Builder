@@ -45,6 +45,12 @@ const reducer = (state = initialState, action) => {
                 totalPrice: REGULAR_PRICE,
                 building: false,
             }
+
+        case actionTypes.REORDER_BURGER: 
+            return {
+                ...state,
+                ingredients: action.ingredients,
+            }
         
         default:
             return state;

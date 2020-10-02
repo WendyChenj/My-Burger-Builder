@@ -1,14 +1,14 @@
 import * as actionTypes from './actionTypes';
 import axios from '../../axios-orders';
 
-export const add = (ing) => {
+export const addIngredient = (ing) => {
     return {
         type: actionTypes.ADD_INGREDIENT,
         ingredient: ing,
     };
 };
 
-export const remove = (ing) => {
+export const removeIngredient = (ing) => {
     return {
         type: actionTypes.REMOVE_INGREDIENT,
         ingredient: ing,
@@ -30,4 +30,11 @@ export const fetchIngredients = () => {
             })
             .catch(error => console.log(error));
     };
+}
+
+export const reorderBurger = (ingredients) => {
+    return {
+        type: actionTypes.REORDER_BURGER,
+        ingredients: ingredients,
+    }
 }
