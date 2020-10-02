@@ -1,169 +1,127 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 
-import * as actions from '../../store/action/auth';
+import { auth } from '../../store/action/auth';
 import './Auth.css';
 
-class Auth extends React.Component {
-    state = {
-        user: {
-            email: {
-                value: '',
-                config: {
-                    type: 'email',
-                    placeHolder: 'Email'
-                },
-                validation: {
-                    required: true,
-                    isEmail: true,
-                },
-                isValid: false,
-            },
-            password: {
-                value: '',
-                config: {
-                    type: 'password',
-                    placeHolder: 'Password',
-                },
-                validation: {
-                    required: true,
-                    minLength: 6,
-                },
-                isValid: false,
-            },
+import { checkValidity } from '../../utility/utility';
+
+const Auth = () => {
+
+    // todo: error warning when totalFormValid is false
+
+    const [ email, setEmail ] = useState({
+        value: '',
+        config: {
+            type: 'email',
+            placeHolder: 'Email'
         },
-        isSignUp: true,
-        totalFormValid: false,
-    }
+        validation: {
+            required: true,
+            isEmail: true,
+        },
+        isValid: false,
+    });
 
-    checkValidity = (value, rules) => {
-        let isValid = true;
-        if (!rules) {
-            return true;
-        };
+    const [ password, setPassword ] = useState({
+        value: '',
+        config: {
+            type: 'password',
+            placeHolder: 'Password',
+        },
+        validation: {
+            required: true,
+            minLength: 6,
+        },
+        isValid: false,
+    });
 
-        if (rules.required) {
-            isValid = value.trim() !== '' && isValid;
-        }
+    const [ isSignUp, setIsSignUp ] = useState(true);
+    const [ totalFormValid, setTotalFormValid ] = useState(false);
 
-        if (rules.minLength) {
-            isValid = value.length >= rules.minLength && isValid; 
-        }
-
-        if (rules.maxLength) {
-            isValid = value.length <= rules.maxLength && isValid;
-        }
-
-        if (rules.isEmail) {
-            const pattern = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-            isValid = pattern.test(value) && isValid;
-        }
-
-        if (rules.isNumberic) {
-            const pattern = /^\d{10}$/;
-            isValid = pattern.test(value) && isValid;
-        }
-
-        return isValid;
-    }
-
-    inputChangedHandler = (event, inputIdentifier) => {
-        const updatedUser = {
-            ...this.state.user
-        };
-
-        updatedUser[inputIdentifier].value = event.target.value;
-        updatedUser[inputIdentifier].isValid = this.checkValidity(event.target.value, updatedUser[inputIdentifier].validation);
-
-        let formValidation = true;
-        for (let formInput in updatedUser) { 
-            formValidation = updatedUser[formInput].isValid && formValidation; 
-        }
-
-        this.setState({
-            user: updatedUser,
-            totalFormValid: formValidation,
-        });
-    }
-
-    signUpHandler = (event) => {
-        event.preventDefault();
-        
-        this.props.onAuthSignup(this.state.user.email.value, this.state.user.password.value, this.state.isSignUp);
-    }
-
-    switchSignModeHandler = () => {
-        let newSignMode = !this.state.isSignUp;
-        this.setState({
-            ...this.state,
-            isSignUp: newSignMode,
-        });
-    }
-
-    render() {
-        let signInForm = Object.keys(this.state.user).map(formInputEle => {
-            return (
-                <div className='userInput-box' key={this.state.user[formInputEle].config.type}>
-                    <input type={this.state.user[formInputEle].config.type} 
-                        value={this.state.user[formInputEle].value} 
-                        onChange={(event) => this.inputChangedHandler(event, formInputEle)}
-                        required />
-                    <label>{this.state.user[formInputEle].config.placeHolder}</label>
-                </div>
-                
-            );
-            
-        });
-
-        let redirectAuth = null;
-
-        if (this.props.building && this.props.isAuthenticate) {
-            redirectAuth = <Redirect to='/checkout' />
-        } else if (this.props.isAuthenticate) {
-            redirectAuth = <Redirect to='/' />
-        } 
-
-        return (
-            <div className='signin-box'> 
-                {redirectAuth}
-                {this.state.isSignUp ? <p>Sign up to MyBurger</p> : <p>Sign in to MyBurger</p> }
-                <form onSubmit={this.signUpHandler}>
-                    {signInForm}
-                    {this.props.error ? <p style={{color: 'red'}}>{this.props.error.message}, PLEASE CHECK!</p>: null}
-                    <button type='submit'>
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                        {this.state.isSignUp ? 'SIGN UP': 'SIGN IN'}
-                        </button>
-                </form>
-                <div className='newUser-box'>
-                    { this.state.isSignUp ? 
-                        <p>Already have an account?</p> : <p>No account yet? Create a new account!</p>
-                    }
-                    <button type='submit' style={{letterSpacing: 4}} onClick={this.switchSignModeHandler}>
-                        { this.state.isSignUp ? 'SIGN IN': 'SIGN UP'}
-                    </button>
-                </div>
-            </div> 
-        );
-    }
-}
-
-const mapStateToProps = state => {
-    return {
+    const { error, isAuthenticate, building } = useSelector( state => ({
         error: state.auth.error,
         isAuthenticate: state.auth.token !== null,
         building: state.burgerBuilder.building,
+    }));
+
+    const dispatch = useDispatch();
+
+    const inputChangedHandler = (event, inputIdentifier) => {
+
+        switch (inputIdentifier) {
+            case email: 
+               setEmail({...email, value: event.target.value, isValid: checkValidity(event.target.value, email.validation)});
+               break;
+            case password: 
+               setPassword({...password, value: event.target.value, isValid: checkValidity(event.target.value, password.validation)});
+               break;
+            default:
+               break;
+        }
+
+        setTotalFormValid(email.isValid && password.isValid);
     }
+
+    const signUpHandler = (event) => {
+        event.preventDefault();
+        dispatch( auth(email.value, password.value, isSignUp) );
+    };
+
+    const switchSignModeHandler = () => {
+        let newSignMode = !isSignUp;
+        setIsSignUp(newSignMode);
+    }
+
+    const signInForm = [ email, password ].map( formInputEle => {
+        return (
+            <div className='userInput-box' key={ formInputEle.config.type }>
+                <input type={ formInputEle.config.type } 
+                    value={ formInputEle.value } 
+                    onChange={ (event) => inputChangedHandler(event, formInputEle) }
+                    required 
+                />
+                <label>{ formInputEle.config.placeHolder }</label>
+            </div>   
+        );
+    });
+
+    let redirectAuth = null;
+
+    if (building && isAuthenticate) {
+        redirectAuth = <Redirect to='/checkout' />
+    } else if (isAuthenticate) {
+        redirectAuth = <Redirect to='/' />
+    } 
+
+    return (
+        <div className='signin-box'> 
+            { redirectAuth }
+            { isSignUp ? <p>Sign up to MyBurger</p> : <p>Sign in to MyBurger</p> }
+            <form onSubmit={ signUpHandler }>
+                { signInForm }
+                { error ? <p style={{color: 'red'}}>{error.message}, PLEASE CHECK!</p>: null }
+                <button type='submit'>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    { isSignUp ? 'SIGN UP': 'SIGN IN' }
+                </button>
+            </form>
+
+            <div className='newUser-box'>
+                { isSignUp ? 
+                    <p>Already have an account?</p> : <p>No account yet? Create a new account!</p>
+                }
+
+                <button type='submit' style={{letterSpacing: 4}} onClick={switchSignModeHandler}>
+                    { isSignUp ? 'SIGN IN': 'SIGN UP' }
+                </button>
+            </div>
+        </div> 
+    );
 }
 
-const mapDispatchToProps = dispatch => {
-    return {
-        onAuthSignup: (email, password, isSignUp) => dispatch(actions.auth(email, password, isSignUp)),
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Auth);
+export default Auth;
