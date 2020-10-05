@@ -16,14 +16,6 @@ ul {
     padding-inline-start: 40px;
 }
 
-ul.page-section {
-    display: flex;
-    align-items: flex-start;
-    margin: 0px;
-    padding: 0px 38px;
-    flex-wrap: wrap;
-}
-
 li {
     list-style: none; 
 }

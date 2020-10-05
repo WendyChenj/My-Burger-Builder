@@ -4,11 +4,11 @@ import { Redirect } from 'react-router-dom';
 import { proceedToPay } from '../../../store/action/order';
 
 import Address from '../../../components/FormData/Address/Address';
-// import BurgerIngredient from '../../../components/Burger/BurgerIngredients/BurgerIngredient';
-import Burger from '../../../components/Burger/Burger';
+import BurgerIngredient from '../../../components/Burger/BurgerIngredients/BurgerIngredient';
 import BurgerInfo from '../../../components/FormData/BurgerInfo/BurgerInfo';
 
 import './ContactData.css';
+import { Container, Typography, Card, TextField, FormControl, RadioGroup, FormControlLabel, Radio, Button } from '@material-ui/core';
 
 import { checkValidity } from '../../../utility/utility';
 
@@ -257,7 +257,6 @@ const ContactData = () => {
         } else {
             totalFormValid = totalFormValid && inputIdentifier.isValid;
         }
-        console.log('check form data validation:', inputIdentifier);
         return totalFormValid;
     }
 
@@ -275,7 +274,6 @@ const ContactData = () => {
                     },
                     isValid: validate(name),
                 });
-                console.log('name state change:', name);
                 break;
             case street:
                 setStreet({...street, 
@@ -371,78 +369,62 @@ const ContactData = () => {
         dispatch(proceedToPay(orderData, token));
     }
 
+    let transformed = Object.keys(ingredients).map(igKey => {
+        // the number of each ingredient --> the length of an array
+        return [ ...Array(parseInt(ingredients[ igKey ]))].map(
+            (_, index) => {
+                return <BurgerIngredient key={igKey + index} type={igKey} />
+            }
+        );
+    });
+
     let redirectPurchased = purchased ? <Redirect to='/' /> : null;
 
     return (
-        <div className='form-all'>
+        <Container maxWidth='lg'>
             {redirectPurchased}
-            <ul className='page-section'>
-                <li id='cid_1' className='form-input-wide'>
-                    <div className='form-header-group header-large'>
-                        <h2 className='form-header'>
-                            Burger Order Form
-                        </h2>
+
+            <div style={{padding: '24px 16px'}}>
+                <Typography variant='h4' className='form-header' fontWeight='600'>
+                    Burger Order Form
+                </Typography>
+            </div>
+
+            
+            <Card variant='outlined' style={{margin: '16px'}}> 
+                <Typography style={{padding: '16px', fontSize: '1.2rem', fontWeight: '600'}}>My Burger</Typography>
+                <div style={{display: 'flex', flexDirection: 'row'}}>
+                    <div style={{height: '200px', width: '20%'}}>
+                        <BurgerIngredient type="bread-top" />
+                        {transformed}
+                        <BurgerIngredient type="bread-bottom" />
                     </div>
-                </li>
-
-                <li id='cid_2' className='order-display'>
-                    <label className='display-label'>My Burger</label>
-                    <div className='burger-order-information'>
-                        <div className='burger-picture-border'>
-                            <div className='burger-picture'>
-                                <Burger />
-                            </div>
-
-                            <div>
-                                <BurgerInfo />
-                            </div>
-                        </div>
+                    <div>
+                        <BurgerInfo />
                     </div>
-                </li>
+                </div>
+            </Card>
 
-                <li className='contact-form' id='cid_3'>
-                    <label className='display-label contact-label'>Contact Information</label>
-                    <form onSubmit={proceedToPayHandler} className='contact-form-inputs'>
-                        <div className='contact-form-line'>
-                            <label className='contact-info-header'>Full Name</label>
-                            <div className='contact-form-input-wide'>
-                                <div style={{ marginRight: '10%'}}>
-                                    <span className='form-sub-label-container'>
-                                        <input type='text' name='fullName-first' className='form-box' value={name.params.first_name.value} onChange={(event) => changedInputHandler(event, name, 'first_name')} required/>
-                                            <label className='form-sub-label'>First Name</label>
-                                        </span>
-                                    </div>
-                                    <div>
-                                        <span className='form-sub-label-container'>
-                                            <input type='text' name='fullName-last' className='form-box' value={name.params.last_name.value} onChange={(event) => changedInputHandler(event, name, 'last_name')} required/>
-                                            <label className='form-sub-label'>Last Name</label>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-
-                        <div className='contact-form-line'>
-                            <label className='contact-info-header'>Email</label>
-                            <div className='contact-form-input-wide'>
-                                <div style={{ marginRight: '10%'}}>
-                                    <span className='form-sub-label-container'>
-                                        <input type='email' name='email' className='form-box' placeholder='ex: example@example.com' value={email.value} onChange={(event) => changedInputHandler(event, email)}/>
-                                        <label className='form-sub-label'>example@example.com</label>
-                                    </span>
-                                </div>
-                            </div>
+            <Card variant='outlined' style={{margin: '16px'}}>
+                <div style={{padding: '16px'}}>
+                    <Typography style={{fontSize: '1.2rem', fontWeight: '600'}}>Contact Information</Typography>
+                    <form noValidate autoComplete='off' onSubmit={proceedToPayHandler}>
+                        <div>
+                            <Typography style={{paddingTop: '16px', fontWeight: '600'}}>Full Name</Typography>
+                            <TextField required id='first-name-required' label='First Name' variant='outlined' style={{marginTop: '16px', marginLeft: '16px', width: '30%'}} size='small'
+                                value={name.params.first_name.value} onChange={(event) => changedInputHandler(event, name, 'first_name')} />
+                            <TextField required id='last-name-required' label='Last Name' variant='outlined' style={{marginTop: '16px', marginLeft: '32px', width: '30%'}} size='small'
+                                value={name.params.last_name.value} onChange={(event) => changedInputHandler(event, name, 'last_name')} />
                         </div>
-
-                        <div className='contact-form-line'>
-                            <label className='contact-info-header'>Contact Number</label>
-                                <div className='contact-form-input-wide'>
-                                <div style={{ marginRight: '10%'}}>
-                                    <span className='form-sub-label-container'>
-                                        <input type='tel' name='telephone' className='form-box' placeholder='(000)-000-0000' value={phoneNumber.value} onChange={(event) =>changedInputHandler(event, phoneNumber)}/>
-                                        <label className='form-sub-label'>Phone Number</label>
-                                    </span>
-                                </div>
-                            </div>
+                        <div>
+                            <Typography style={{paddingTop: '16px', fontWeight: '600'}}>Email</Typography>
+                            <TextField required id='email-required' label='Email' variant='outlined' style={{marginTop: '16px', marginLeft: '16px', width: '30%'}} size='small'
+                                value={email.value} onChange={(event) => changedInputHandler(event, email)} placeholder='ex: example@example.com' />
+                        </div>
+                        <div>
+                            <Typography style={{paddingTop: '16px', fontWeight: '600'}}>Contact Number</Typography>
+                            <TextField required id='number-required' label='Phone Number' variant='outlined' style={{marginTop: '16px', marginLeft: '16px', width: '30%'}} size='small'
+                                value={phoneNumber.value} onChange={(event) => changedInputHandler(event, phoneNumber)} placeholder='(000)-000-0000' />
                         </div>
 
                         <Address title = 'Shipping Address'
@@ -452,23 +434,17 @@ const ContactData = () => {
                             stateValue={street.params.state.value} stateChanged={(event) => changedInputHandler(event, street, 'state')}
                             countryValue={street.params.country.value} countryChanged={(event) => changedInputHandler(event, street, 'country')}
                             codeValue={street.params.postalCode.value} codeChanged={(event) => changedInputHandler(event, street, 'postalCode')}
-                        /> 
+                        />
 
-                        <div className='contact-form-line'>
-                            <label className='contact-info-header'>Is billing address same as shipping address?</label>
-                            <div>
-                                <div className='form-radio-sub-container' style={{ paddingBottom: '4px'}}>
-                                    <input type='radio' className='form-radio' value="Yes" 
-                                        checked={billingAddress.selectedOption === "Yes"} onChange={(event) => changedInputHandler(event, billingAddress, 'selectedOption')} />
-                                    <label className='form-sub-label'>Yes</label>     
-                                </div>
+                        <div>
+                            <FormControl component="fieldset">
+                                <Typography style={{paddingTop: '16px', fontWeight: '600'}}>Is billing address same as shipping address?</Typography>
+                                <RadioGroup aria-label="billing-address" name="billing-address" value={billingAddress.selectedOption} onChange={(event) => changedInputHandler(event, billingAddress, 'selectedOption')} >
+                                    <FormControlLabel value="Yes" control={<Radio />} label="Yes" style={{marginLeft: '16px', fontSize: '0.8rem'}}/>
+                                    <FormControlLabel value="No" control={<Radio />} label="No" style={{marginLeft: '16px', fontSize: '0.8rem'}} />
+                                </RadioGroup>
+                            </FormControl>
 
-                                <div className='form-radio-sub-container'>
-                                    <input type='radio' className='form-radio' value="No"
-                                        checked={billingAddress.selectedOption === "No"} onChange={(event) => changedInputHandler(event, billingAddress, 'selectedOption')} /> 
-                                    <label className='form-sub-label'>No</label>  
-                                </div>  
-                            </div>
                             {billingAddress.selectedOption === 'No' ? 
                                 <Address title = 'Billing Address'
                                 streetValue={billingAddress.params.streetAddress.value} streetChanged={(event) => billingAddressChangedHandler(event, 'streetAddress')}
@@ -480,46 +456,29 @@ const ContactData = () => {
                                 />: null}
                         </div>
 
-                        <div className='contact-form-line'>
-                            <label className='contact-info-header'>Delivery Methods</label>
-                            <div>
-                                <select id='form-select' value={deliveryMethod.value} onChange={(event) => changedInputHandler(event, deliveryMethod)}>
-                                    <option value='' >--Please select a delivery method--</option>
-                                    <option value='fastest' >fastest</option>
-                                    <option value='regular' >regular</option>
-                                </select>
-                            </div>
+                        <div>
+                            <Typography style={{paddingTop: '16px', fontWeight: '600'}}>Delivery Method</Typography> 
+                            <select id='form-select' style={{marginLeft: '16px', marginTop: '16px', color: 'rgba(0, 0, 0, 0.87)'}}
+                                value={deliveryMethod.value} onChange={(event) => changedInputHandler(event, deliveryMethod)}>
+                                <option value='' >--Please select a delivery method--</option>
+                                <option value='fastest' >fastest</option>
+                                <option value='regular' >regular</option>
+                            </select>   
                         </div>
 
-                        <div className='contact-form-line'>
-                            <label className='contact-info-header'>Special Instructions</label>
-                            <div className='contact-form-input-wide'>
-                                <textarea className='form-textarea' value={specialInstrument.value} onChange={event => changedInputHandler(event, setSpecialInstrument)} />
-                            </div>
+                        <div>
+                            <Typography style={{paddingTop: '16px', fontWeight: '600'}}>Speical Instruments (Optional)</Typography>
+                            <TextField id="special-ins" label="Special Instruments (Optional)" style={{width: '60%', marginTop: '16px', marginLeft: '16px'}}
+                                placeholder="eg: extra sauce" multiline rows={4} variant="outlined"  />
                         </div>
 
-                        <div className='contact-form-line'>
-                            <label className='contact-info-header'>Payment Methods</label>
-                            <div>
-                                <div className='form-radio-sub-container' style={{ paddingBottom: '4px'}}>
-                                    <input type='radio' id='payment-card' name='payment' className='form-radio' />
-                                    <label className='form-sub-label'>Debit or Credit Card</label>
-                                </div>
-
-                                <div className='form-radio-sub-container'>
-                                    <input type='radio' id='payment-paypal' name='payment' className='form-radio' />
-                                    <label className='form-sub-label'>Paypal</label>
-                                </div>      
-                            </div>
-                        </div>
-
-                        <div className='form-button-wrapper'>
-                            <button className='form-button' type="submit">Proceed to Pay</button>
-                        </div> 
+                        {formValid ? 
+                           <Button variant='contained' color='secondary' style={{marginTop: '16px', marginLeft: '16px'}} type='submit'>Submit</Button>
+                           : <Button variant='contained' disabled style={{marginTop: '16px', marginLeft: '16px'}} type='submit'>Submit</Button>}  
                     </form>
-                </li>
-            </ul>
-     </div>
+                </div>          
+            </Card>
+     </Container>
     );
 }
 

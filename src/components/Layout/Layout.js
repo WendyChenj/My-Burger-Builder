@@ -1,9 +1,9 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 
 import Aux from '../../hoc/Aux';
 import './Layout.css';
-import Toolbar from '../Navigation/Toolbar/Toolbar';
+import Headerbar from '../Navigation/Headerbar/Headerbar';
 import Sidedrawer from '../Navigation/Sidedrawer/Sidedrawer';
 
 class Layout extends React.Component {
@@ -27,7 +27,7 @@ class Layout extends React.Component {
   render() {
     return (
       <Aux>
-        <Toolbar clicked={this.showDrawerHandler} isAuth={this.props.isAuthenticate} />
+        <Headerbar clicked={this.showDrawerHandler} isAuth={this.props.isAuthenticate} />
         <Sidedrawer show={this.state.showDrawer} clicked={this.closeDrawerHandler} isAuth={this.props.isAuthenticate} />
         <main className="Content">
           {this.props.children}
