@@ -24,8 +24,6 @@ const Orders = () => {
 
     let history = useHistory();
 
-    console.log(history);
-
     const reorderHandler = (event, ings) => {
         event.preventDefault();
         dispatch(reorderBurger(ings));

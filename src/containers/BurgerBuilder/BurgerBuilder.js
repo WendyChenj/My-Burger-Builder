@@ -46,7 +46,6 @@ const BurgerBuilder = () => {
     }
 
     const purchasingContinueHandler = () => {
-        console.log(history);
         history.push('/checkOut');
     }
         
