@@ -1,18 +1,6 @@
-import React from 'react';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
-const Input = (props) => {
-
-    // let invalidInfo = null;
-
-    // if (!props.valid && props.touched) {
-    //     invalidInfo = <p>Please enter valid values!</p>
-    // }
-
-    return (
-        <div>
-            <input type={props.type} placeholder={props.placeHolder} required/>   
-        </div>    
-    );
+export default function SimpleMediaQuery(minWidth) {
+  const matches = useMediaQuery(`(min-width: ${minWidth})`);
+  return matches;
 }
-
-export default Input;

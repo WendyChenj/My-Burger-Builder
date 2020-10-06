@@ -50,6 +50,7 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 ingredients: action.ingredients,
+                building: false,
             }
         
         default:

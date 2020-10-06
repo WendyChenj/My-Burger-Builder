@@ -8,6 +8,7 @@ import BurgerOrderSummary from '../../components/Burger/BurgerOrderSummary/Burge
 import Spinner from '../../components/UI/Spinner/Spinner';
 import { useSelector, useDispatch } from 'react-redux';
 import { addIngredient, removeIngredient, fetchIngredients } from '../../store/action/burgerBuilder';
+import { purchaseBurgerInit } from '../../store/action/order';
 import { useHistory } from 'react-router-dom';
 
 const BurgerBuilder = () => {
@@ -25,6 +26,7 @@ const BurgerBuilder = () => {
 
     useEffect(() => {
         dispatch(fetchIngredients());
+        dispatch(purchaseBurgerInit());
     }, [ dispatch ]);
 
     const orderDisable = (ingredients) => {
@@ -46,6 +48,9 @@ const BurgerBuilder = () => {
     }
 
     const purchasingContinueHandler = () => {
+        console.log(ingredients);
+        console.log(purchasing);
+        console.log(history);
         history.push('/checkOut');
     }
         

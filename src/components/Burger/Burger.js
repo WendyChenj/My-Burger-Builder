@@ -4,18 +4,11 @@ import { useSelector } from 'react-redux';
 import './Burger.css';
 import BurgerIngredient from './BurgerIngredients/BurgerIngredient';
 
-// todo: import burger into contact data page: css should be redesign
-
 const Burger = React.memo( () => {
 
-    const { ingredients, totalPrice } = useSelector( state => ({
+    const { ingredients } = useSelector( state => ({
         ingredients: state.burgerBuilder.ingredients,
-        totalPrice: state.burgerBuilder.totalPrice,
     }));
-    // props.ingredients is not an array, impossible to loop through.
-    // Therefore, we have to transform the object to an array and then loop through
-    
-    //array.map(); array.reduce()
 
     let transformed = Object.keys(ingredients).map(igKey => {
             // the number of each ingredient --> the length of an array

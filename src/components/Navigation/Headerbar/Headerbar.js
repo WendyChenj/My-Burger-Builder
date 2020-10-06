@@ -6,8 +6,6 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import './Headerbar.css';
 import NavigationItems from '../NavigationItems/NavigationItems';
 import MenuIcon from '@material-ui/icons/Menu';
-
-// 收到的是img的路径
 import Logo from '../../../assets/images/burger-logo.png';
 
 const useStyle = makeStyles((theme) => ({

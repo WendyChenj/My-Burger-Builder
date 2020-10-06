@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 
@@ -99,7 +99,7 @@ const Auth = () => {
         <div className='signin-box'> 
             { redirectAuth }
             { isSignUp ? <p>Sign up to MyBurger</p> : <p>Sign in to MyBurger</p> }
-            <form onSubmit={ signUpHandler }>
+            <form onSubmit={ signUpHandler } className='signin-form'>
                 { signInForm }
                 { error ? <p style={{color: 'red'}}>{error.message}, PLEASE CHECK!</p>: null }
                 <button type='submit'>
@@ -116,9 +116,11 @@ const Auth = () => {
                     <p>Already have an account?</p> : <p>No account yet? Create a new account!</p>
                 }
 
+                <div className='newUser-button'>
                 <button type='submit' style={{letterSpacing: 4}} onClick={switchSignModeHandler}>
                     { isSignUp ? 'SIGN IN': 'SIGN UP' }
                 </button>
+                </div>
             </div>
         </div> 
     );
