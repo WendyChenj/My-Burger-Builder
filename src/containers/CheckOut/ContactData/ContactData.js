@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { proceedToPay, purchaseBurgerInit } from '../../../store/action/order';
+import { proceedToPay } from '../../../store/action/order';
 
 import Modal from '../../../components/UI/Modal/Modal';
 import Address from '../../../components/FormData/Address/Address';
@@ -12,6 +12,7 @@ import BillingAddress from '../../../components/FormData/BillingAddress/BillingA
 import OrderInfo from '../../../components/FormData/BurgerInfo/BurgerInfo';
 
 import { Container, Typography, Card, TextField, Button } from '@material-ui/core';
+import './ContactData.css';
 
 import { checkValidity } from '../../../utility/utility';
 
@@ -399,7 +400,7 @@ const ContactData = () => {
             <OrderInfo />
 
             <Card variant='outlined' style={{margin: '16px'}}>
-                <div style={{padding: '16px'}}>
+                <div style={{padding: '16px'}} className='form-container'>
                     <Typography style={{fontSize: '1.2rem', fontWeight: '600'}}>Contact Information</Typography>
                     <form noValidate autoComplete='off' onSubmit={proceedToPayHandler}>
                         <Name firstNameValue={name.params.first_name.value} firstNameChanged={(event) => changedInputHandler(event, name, 'first_name')} 
@@ -448,7 +449,7 @@ const ContactData = () => {
                            : (
                                <div>
                                    <Button variant='contained' disabled style={{marginTop: '16px', marginLeft: '16px'}} type='submit'>Submit</Button>
-                                   <Typography color='secondary' fontSize='0.5rem' style={{marginLeft: '16px', marginTop: '8px'}}>Sorry, please check your information!</Typography>
+                                   <Typography color='secondary' fontSize='0.5rem' style={{marginLeft: '16px', marginTop: '8px'}}>Sorry, please check your information! Remember this can not be auto filled!</Typography>
                                 </div>)}  
                     </form>
                 </div>          
