@@ -6,15 +6,10 @@ import { useSelector } from 'react-redux';
 
 const CheckOut = () => {
 
-    const { ingredients, purchased, isAuthenticate } = useSelector( state => ({
+    const { ingredients, isAuthenticate } = useSelector( state => ({
         ingredients: state.burgerBuilder.ingredients,
-        // totalPrice: state.burgerBuilder.totalPrice,
-        purchased: state.order.purchased,
         isAuthenticate: state.auth.token !== null,
-        reorder: state.order.reorder,
     }));
-
-    // const dispatch = useDispatch();
 
     let history = useHistory();
 
@@ -23,6 +18,7 @@ const CheckOut = () => {
     }
 
     const continueOrderHandler = () => {
+
         if (isAuthenticate) {
             history.push({pathname: '/checkOut/contactData'});
         } else {
@@ -32,10 +28,8 @@ const CheckOut = () => {
 
     let checkOutPage = <Redirect to= {{pathname: '/'}} />;
     if (ingredients) {
-        let redirectPurchase = purchased ? <Redirect to='/' />: null;
         checkOutPage = (
           <div>
-            {redirectPurchase}
             <CheckOutSummary 
                 ingredients={ingredients} 
                 cancel = {cancelledOrderHandler}

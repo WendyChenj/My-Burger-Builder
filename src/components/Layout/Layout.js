@@ -1,46 +1,21 @@
 import React from 'react';
-import { connect, useSelector } from 'react-redux';
-
-import Aux from '../../hoc/Aux';
+import { useSelector } from 'react-redux';
 import './Layout.css';
 import Headerbar from '../Navigation/Headerbar/Headerbar';
-import Sidedrawer from '../Navigation/Sidedrawer/Sidedrawer';
 
-class Layout extends React.Component {
-
-  state = {
-    showDrawer: false,
-  }
-
-  showDrawerHandler = () => {
-    this.setState ({
-      showDrawer: true,
-    });
-  }
-
-  closeDrawerHandler = () => {
-    this.setState ({
-      showDrawer: false,
-    });
-  }
-
-  render() {
-    return (
-      <Aux>
-        <Headerbar clicked={this.showDrawerHandler} isAuth={this.props.isAuthenticate} />
-        <Sidedrawer show={this.state.showDrawer} clicked={this.closeDrawerHandler} isAuth={this.props.isAuthenticate} />
-        <main className="Content">
-          {this.props.children}
-        </main>
-      </Aux>
-    );
-  }  
-}
-
-const mapStatetToProps = state => {
-  return {
+const Layout = props => {
+  const { isAuthenticate } = useSelector( state => ({
     isAuthenticate: state.auth.token !== null,
-  }
+  }));
+
+  return (
+    <>
+      <Headerbar isAuth={isAuthenticate} />
+      <main className="Content">
+        {props.children}
+      </main>
+    </>
+  );
 }
 
-export default connect(mapStatetToProps)(Layout);
+export default Layout;

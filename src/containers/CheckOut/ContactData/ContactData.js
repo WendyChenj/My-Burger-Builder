@@ -1,14 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { proceedToPay } from '../../../store/action/order';
 
+import Modal from '../../../components/UI/Modal/Modal';
 import Address from '../../../components/FormData/Address/Address';
-import BurgerIngredient from '../../../components/Burger/BurgerIngredients/BurgerIngredient';
-import BurgerInfo from '../../../components/FormData/BurgerInfo/BurgerInfo';
+import Name from '../../../components/FormData/Name/Name';
+import PhoneNumber from '../../../components/FormData/PhoneNumber/PhoneNumber';
+import Email from '../../../components/FormData/Email/Email';
+import BillingAddress from '../../../components/FormData/BillingAddress/BillingAddress';
+import OrderInfo from '../../../components/FormData/BurgerInfo/BurgerInfo';
 
+import { Container, Typography, Card, TextField, Button } from '@material-ui/core';
 import './ContactData.css';
-import { Container, Typography, Card, TextField, FormControl, RadioGroup, FormControlLabel, Radio, Button } from '@material-ui/core';
 
 import { checkValidity } from '../../../utility/utility';
 
@@ -208,19 +212,19 @@ const ContactData = () => {
             },
         },
         selectedOption: 'Yes',
-        isValid: false
+        isValid: true
     });
 
     const [ deliveryMethod, setDeliveryMethod ] = useState({
-        value: '',
+        value: 'regular',
         config: {
             type: 'deliveryMethod',
         },
         validation: {
             required: true,
         },
-        options: ['', 'fastest', 'regular'],
-        isValid: false
+        options: ['fastest', 'regular'],
+        isValid: true
     });
 
     const [ specialInstrument, setSpecialInstrument ] = useState({
@@ -237,6 +241,10 @@ const ContactData = () => {
 
     const [ formValid, setFormValid ] = useState(false);
 
+    useEffect(() => {
+        setFormValid(name.isValid && email.isValid && phoneNumber.isValid && deliveryMethod.isValid && street.isValid && billingAddress.isValid);
+    }, [name.isValid, email.isValid, phoneNumber.isValid, deliveryMethod.isValid, street.isValid, billingAddress.isValid, formValid]);
+
     const { ingredients, totalPrice, purchased, token, userId } = useSelector( state => ({
         ingredients: state.burgerBuilder.ingredients,
         totalPrice: state.burgerBuilder.totalPrice,
@@ -246,6 +254,9 @@ const ContactData = () => {
         }));
     
     const dispatch = useDispatch();
+
+    let history = useHistory();
+
 
     const validate = (inputIdentifier) => {
         let totalFormValid = true;
@@ -311,11 +322,9 @@ const ContactData = () => {
             default:
                 break;
         }
-        setFormValid(name.isValid && email.isValid && phoneNumber.isValid && deliveryMethod.isValid && street.isValid && billingAddress.isValid);
     }
 
     const billingAddressChangedHandler = (event, secondIdentifier) => {
-
         if(billingAddress.selectedOption === "Yes") {
                 setBillingAddress({...street, selectedOption: "Yes" });
             } else {
@@ -333,7 +342,6 @@ const ContactData = () => {
                 });
             }
     }
-
 
     const proceedToPayHandler = (event) => {
         event.preventDefault();
@@ -369,16 +377,15 @@ const ContactData = () => {
         dispatch(proceedToPay(orderData, token));
     }
 
-    let transformed = Object.keys(ingredients).map(igKey => {
-        // the number of each ingredient --> the length of an array
-        return [ ...Array(parseInt(ingredients[ igKey ]))].map(
-            (_, index) => {
-                return <BurgerIngredient key={igKey + index} type={igKey} />
-            }
-        );
-    });
-
-    let redirectPurchased = purchased ? <Redirect to='/' /> : null;
+    let redirectPurchased = purchased ? (
+        <Modal show={purchased} >
+            <Typography style={{margin: '16px'}}>Your order has been successfully submitted!</Typography>
+            <Button variant='contained' color='secondary' onClick={() => history.push('/')} style={{marginLeft: '16px'}}>
+                RETURN TO MAIN PAGE
+            </Button>
+        </Modal>
+    )
+    : null;
 
     return (
         <Container maxWidth='lg'>
@@ -390,43 +397,16 @@ const ContactData = () => {
                 </Typography>
             </div>
 
-            
-            <Card variant='outlined' style={{margin: '16px'}}> 
-                <Typography style={{padding: '16px', fontSize: '1.2rem', fontWeight: '600'}}>My Burger</Typography>
-                <div style={{display: 'flex', flexDirection: 'row'}}>
-                    <div style={{height: '200px', width: '20%'}}>
-                        <BurgerIngredient type="bread-top" />
-                        {transformed}
-                        <BurgerIngredient type="bread-bottom" />
-                    </div>
-                    <div>
-                        <BurgerInfo />
-                    </div>
-                </div>
-            </Card>
+            <OrderInfo />
 
             <Card variant='outlined' style={{margin: '16px'}}>
-                <div style={{padding: '16px'}}>
+                <div style={{padding: '16px'}} className='form-container'>
                     <Typography style={{fontSize: '1.2rem', fontWeight: '600'}}>Contact Information</Typography>
                     <form noValidate autoComplete='off' onSubmit={proceedToPayHandler}>
-                        <div>
-                            <Typography style={{paddingTop: '16px', fontWeight: '600'}}>Full Name</Typography>
-                            <TextField required id='first-name-required' label='First Name' variant='outlined' style={{marginTop: '16px', marginLeft: '16px', width: '30%'}} size='small'
-                                value={name.params.first_name.value} onChange={(event) => changedInputHandler(event, name, 'first_name')} />
-                            <TextField required id='last-name-required' label='Last Name' variant='outlined' style={{marginTop: '16px', marginLeft: '32px', width: '30%'}} size='small'
-                                value={name.params.last_name.value} onChange={(event) => changedInputHandler(event, name, 'last_name')} />
-                        </div>
-                        <div>
-                            <Typography style={{paddingTop: '16px', fontWeight: '600'}}>Email</Typography>
-                            <TextField required id='email-required' label='Email' variant='outlined' style={{marginTop: '16px', marginLeft: '16px', width: '30%'}} size='small'
-                                value={email.value} onChange={(event) => changedInputHandler(event, email)} placeholder='ex: example@example.com' />
-                        </div>
-                        <div>
-                            <Typography style={{paddingTop: '16px', fontWeight: '600'}}>Contact Number</Typography>
-                            <TextField required id='number-required' label='Phone Number' variant='outlined' style={{marginTop: '16px', marginLeft: '16px', width: '30%'}} size='small'
-                                value={phoneNumber.value} onChange={(event) => changedInputHandler(event, phoneNumber)} placeholder='(000)-000-0000' />
-                        </div>
-
+                        <Name firstNameValue={name.params.first_name.value} firstNameChanged={(event) => changedInputHandler(event, name, 'first_name')} 
+                            lastNameValue={name.params.last_name.value} lastNameChanged={(event) => changedInputHandler(event, name, 'last_name')} />
+                        <Email emailValue={email.value} emailChanged={(event) => changedInputHandler(event, email)} />
+                        <PhoneNumber phoneNumberValue={phoneNumber.value} phoneNumberChanged={(event) => changedInputHandler(event, phoneNumber)} />
                         <Address title = 'Shipping Address'
                             streetValue={street.params.streetAddress.value} streetChanged={(event) => changedInputHandler(event, street, 'streetAddress')}
                             street2Value={street.params.streetAddress2.value} street2Changed={(event) => changedInputHandler(event, street, 'streetAddress2')}
@@ -437,14 +417,7 @@ const ContactData = () => {
                         />
 
                         <div>
-                            <FormControl component="fieldset">
-                                <Typography style={{paddingTop: '16px', fontWeight: '600'}}>Is billing address same as shipping address?</Typography>
-                                <RadioGroup aria-label="billing-address" name="billing-address" value={billingAddress.selectedOption} onChange={(event) => changedInputHandler(event, billingAddress, 'selectedOption')} >
-                                    <FormControlLabel value="Yes" control={<Radio />} label="Yes" style={{marginLeft: '16px', fontSize: '0.8rem'}}/>
-                                    <FormControlLabel value="No" control={<Radio />} label="No" style={{marginLeft: '16px', fontSize: '0.8rem'}} />
-                                </RadioGroup>
-                            </FormControl>
-
+                            <BillingAddress billingValue={billingAddress.selectedOption} billingChanged={(event) => changedInputHandler(event, billingAddress, 'selectedOption')} />
                             {billingAddress.selectedOption === 'No' ? 
                                 <Address title = 'Billing Address'
                                 streetValue={billingAddress.params.streetAddress.value} streetChanged={(event) => billingAddressChangedHandler(event, 'streetAddress')}
@@ -458,23 +431,26 @@ const ContactData = () => {
 
                         <div>
                             <Typography style={{paddingTop: '16px', fontWeight: '600'}}>Delivery Method</Typography> 
-                            <select id='form-select' style={{marginLeft: '16px', marginTop: '16px', color: 'rgba(0, 0, 0, 0.87)'}}
+                            <select id='form-select' style={{marginLeft: '16px', marginTop: '16px', color: 'rgba(0, 0, 0, 0.87)', padding: '8px'}}
                                 value={deliveryMethod.value} onChange={(event) => changedInputHandler(event, deliveryMethod)}>
-                                <option value='' >--Please select a delivery method--</option>
-                                <option value='fastest' >fastest</option>
                                 <option value='regular' >regular</option>
+                                <option value='fastest' >fastest</option>
                             </select>   
                         </div>
 
                         <div>
                             <Typography style={{paddingTop: '16px', fontWeight: '600'}}>Speical Instruments (Optional)</Typography>
-                            <TextField id="special-ins" label="Special Instruments (Optional)" style={{width: '60%', marginTop: '16px', marginLeft: '16px'}}
+                            <TextField id="special-ins" label="Special Instruments" style={{marginTop: '16px', marginLeft: '16px', width: '80%'}}
                                 placeholder="eg: extra sauce" multiline rows={4} variant="outlined"  />
                         </div>
 
                         {formValid ? 
                            <Button variant='contained' color='secondary' style={{marginTop: '16px', marginLeft: '16px'}} type='submit'>Submit</Button>
-                           : <Button variant='contained' disabled style={{marginTop: '16px', marginLeft: '16px'}} type='submit'>Submit</Button>}  
+                           : (
+                               <div>
+                                   <Button variant='contained' disabled style={{marginTop: '16px', marginLeft: '16px'}} type='submit'>Submit</Button>
+                                   <Typography color='secondary' fontSize='0.5rem' style={{marginLeft: '16px', marginTop: '8px'}}>Sorry, please check your information! Remember this can not be auto filled!</Typography>
+                                </div>)}  
                     </form>
                 </div>          
             </Card>
