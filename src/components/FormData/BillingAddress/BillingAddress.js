@@ -1,5 +1,4 @@
 import React from 'react';
-import Address from '../Address/Address';
 import { Typography, FormControl, RadioGroup, FormControlLabel, Radio } from '@material-ui/core';
 
 const BillingAddress = props => {

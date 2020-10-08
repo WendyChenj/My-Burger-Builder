@@ -58,7 +58,6 @@
     width: 100%;
     padding: 10px 0;
     font-size: 16px;
-    margin-bottom: 30px;
     color: #ffffff;
     border: none;
     border-bottom: 1px solid #ffffff;
@@ -84,6 +83,29 @@
     color: #b9ac92;
     font-size: 12px;
 }
+
+.signin-box .userInput-box input:invalid:focus ~ label {
+    transition: 0.5s;
+    top: -20px;
+    color: red;
+    font-size: 12px;
+}
+
+.signin-box .userInput-box input:invalid:focus ~ .requirement {
+    font-size: 16px;
+    font-weight: 600;
+    max-height: 50px;
+    color: red;
+}
+
+.requirement {
+    max-height: 0;
+    transition: 0.28s;
+    overflow: hidden;
+    color: red;
+    font-style: italic;
+  }
+
 
 .signin-box form button {
     position: relative;

@@ -12,7 +12,6 @@ import BillingAddress from '../../../components/FormData/BillingAddress/BillingA
 import OrderInfo from '../../../components/FormData/BurgerInfo/BurgerInfo';
 
 import { Container, Typography, Card, TextField, Button } from '@material-ui/core';
-import './ContactData.css';
 
 import { checkValidity } from '../../../utility/utility';
 
