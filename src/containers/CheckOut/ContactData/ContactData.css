@@ -1,4 +1,0 @@
-.form-container input:-webkit-autofill {
-    -webkit-transition-delay: 9999999s;
-    -webkit-box-shadow: 0 0 0 1000px white inset;
-}

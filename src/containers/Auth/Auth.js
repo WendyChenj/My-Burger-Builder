@@ -79,10 +79,12 @@ const Auth = () => {
             <div className='userInput-box' key={ formInputEle.config.type }>
                 <input type={ formInputEle.config.type } 
                     value={ formInputEle.value } 
+                    placeholder=' '
                     onChange={ (event) => inputChangedHandler(event, formInputEle) }
                     required 
                 />
                 <label>{ formInputEle.config.placeHolder }</label>
+                <p className='requirement'>Must be a valid { formInputEle.config.type }</p>
             </div>   
         );
     });
@@ -102,7 +104,7 @@ const Auth = () => {
             <form onSubmit={ signUpHandler } className='signin-form'>
                 { signInForm }
                 { error ? <p style={{color: 'red'}}>{error.message}, PLEASE CHECK!</p>: null }
-                <button type='submit'>
+                <button type='submit' disabled={!totalFormValid}>
                     <span></span>
                     <span></span>
                     <span></span>
