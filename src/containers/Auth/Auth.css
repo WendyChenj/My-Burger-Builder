@@ -58,21 +58,6 @@
     font-size: 12px;
 }
 
-/* .signin-box .userInput-box input:focus ~ label,
-.signin-box .userInput-box input:valid ~ label {
-    transition: 0.5s;
-    top: -20px;
-    color: #b9ac92;
-    font-size: 12px;
-}
-
-.signin-box .userInput-box input:invalid:not(:empty) ~ label {
-    transition: 0.5s;
-    top: -20px;
-    color: red;
-    font-size: 12px;
-} */
-
 .signin-box .userInput-box .requirement {
     font-size: 10px;
     font-weight: 600;
@@ -231,20 +216,6 @@
         flex-flow: column nowrap;
         align-items: center;
     }
-
-    /* .signin-box .auth-title {
-        color:rgba(0, 0,0, .6);
-    }
-
-    .signin-box .userInput-box input {
-        color: rgba(0, 0,0, .6);
-        border-bottom: 1px solid rgba(0, 0,0, .6);
-    }
-
-    .newUser-box .newUser-auth-title, 
-    .signin-box .userInput-box .no-value-label {
-        color: rgba(0, 0,0, .6);
-    } */
 
     .newUser-box .newUser-button {
         width: 100%;
