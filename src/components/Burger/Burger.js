@@ -21,14 +21,14 @@ const Burger = React.memo( () => {
 
     let totalLayer = Object.values(ingredients).reduce((acc, cur) => acc + cur, 0);
 
-    if (totalLayer.length === 0) {
-        transformed = <p>Please start adding ingredients!</p>
+    if (totalLayer === 0) {
+        transformed = <p>Please scroll down to create your own burger!</p>
     }
 
     return (
         <div className='Burger'>
             <BurgerIngredient type="bread-top" />
-            {transformed}
+            { transformed }
             <BurgerIngredient type="bread-bottom" />
         </div>
     );
