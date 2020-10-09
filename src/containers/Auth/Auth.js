@@ -83,8 +83,51 @@ const Auth = () => {
                     onChange={ (event) => inputChangedHandler(event, formInputEle) }
                     required 
                 />
-                <label>{ formInputEle.config.placeHolder }</label>
-                <p className='requirement'>Must be a valid { formInputEle.config.type }</p>
+                {/* <label>{ formInputEle.config.placeHolder }</label> */}
+                {/* todo: check type: if it's email, then create the className to see if it is valid
+                password: check the value length, only >0 <6 appear the wrong info */}
+
+                {/* {formInputEle.config.type === 'email' ? 
+                    <div>
+                        {(formInputEle.value.length > 1 && formInputEle.isValid) ?
+                            null
+                            : 
+                            <div>
+                                <label>{ formInputEle.config.placeHolder }</label>
+                                <p className='requirement'> Must be a valid Email Address</p>
+                            </div>
+                        }
+                    </div>
+                    :  
+                    <div>
+                        {(formInputEle.value.length >= 1 && formInputEle.value.length < 6) ? 
+                            <div className='requirement'>Your password must contain at least 6 characters</div>
+                            : null}
+                    </div>
+                } */}
+
+                {formInputEle.value.length === 0 ?
+                    <label className='no-value-label'>{ formInputEle.config.placeHolder }</label>
+                    : 
+                    <div>
+                        <label className='value-label'>{ formInputEle.config.placeHolder }</label>
+                        {formInputEle.isValid ? 
+                            null : 
+                            <div>
+                        { formInputEle.config.type === 'email' ? 
+                            <p className='requirement'>Must be a valid Email Address</p>
+                            : <p className='requirement'>Your password must contain at least 6 characters</p>}
+                    </div>
+                            }
+                        
+                    </div>
+                    
+                }
+                {/* <div className='requirement'>
+                    { formInputEle.config.type === 'email' ? 'Must be a valid Email Address' 
+                        : <p>Your password must contain at least 6 characters</p>
+                    }
+                </div> */}
             </div>   
         );
     });
@@ -100,7 +143,7 @@ const Auth = () => {
     return (
         <div className='signin-box'> 
             { redirectAuth }
-            { isSignUp ? <p>Sign up to MyBurger</p> : <p>Sign in to MyBurger</p> }
+            { isSignUp ? <p className='auth-title'>Sign up to MyBurger</p> : <p className='auth-title'>Sign in to MyBurger</p> }
             <form onSubmit={ signUpHandler } className='signin-form'>
                 { signInForm }
                 { error ? <p style={{color: 'red'}}>{error.message}, PLEASE CHECK!</p>: null }
@@ -115,7 +158,7 @@ const Auth = () => {
 
             <div className='newUser-box'>
                 { isSignUp ? 
-                    <p>Already have an account?</p> : <p>No account yet? Create a new account!</p>
+                    <p className='newUser-auth-title'>Already have an account?</p> : <p className='newUser-auth-title'>No account yet? Create a new account!</p>
                 }
 
                 <div className='newUser-button'>
