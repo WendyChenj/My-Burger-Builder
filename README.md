@@ -1,68 +1,29 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# MY BURGER BUILDER
 
-## Available Scripts
+My burger builder application aims to allow customers to create their own burger by adding or removing ingredients based on their own flavour. 
+[https://react-my-burger-1f18b.web.app/]
 
-In the project directory, you can run:
+This project was built using React Hook, Redux, react-router, axios and Material-UI.
 
-### `npm start`
+### DEMO
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Gif images below are provided in screen size 768*1024. Please feel free to open the website on different devices.
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+### Log in
 
-### `npm test`
+Customers are required to sign in the application to place an order or check their past orders. Please sign in if you already have an account or sign up if you are a new customer. You will be automatically loged out after one hour.
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+![alt-test](https://github.com/WendyChenj/My-Burger-Builder/blob/media/login.gif)
 
-### `npm run build`
+### Check out
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Feel free to add or remove ingredients on burger builder page by clicking More or Less button and create your own burger. Remember to check your order and fill in contact form.   
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+![alt-test](https://github.com/WendyChenj/My-Burger-Builder/blob/media/checkout.gif)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Reorder
 
-### `npm run eject`
+Just simple click the reorder button on orders page and place your favourite burger again!  
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+![alt-test](https://github.com/WendyChenj/My-Burger-Builder/blob/media/reorder.gif)
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
