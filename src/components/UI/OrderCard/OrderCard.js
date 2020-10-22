@@ -72,7 +72,7 @@ const OrderCard = props => {
                 <hr />
 
                 <div style={{paddingTop: '16px', display: 'flex', justifyContent: 'space-between'}}>
-                    <Typography variant='caption'> Total: ${parseInt(props.price).toFixed(2)}</Typography>
+                    <Typography variant='caption'> Total: ${parseFloat(props.price).toFixed(2)}</Typography>
                     <Button size="small" variant='contained' color="secondary" onClick={props.reorder}>
                         REORDER
                     </Button>

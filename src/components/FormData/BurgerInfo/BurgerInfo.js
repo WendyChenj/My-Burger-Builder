@@ -14,7 +14,7 @@ const BurgerInfo = (props) => {
                 <Typography style={{marginLeft: '20px'}}>Bacon:        x{props.ingredients['bacon']}</Typography>
                 <Typography style={{marginLeft: '20px'}}>Meat:         x{props.ingredients['meat']}</Typography>
             </div>
-            <Typography style={{marginLeft: '16px', fontWeight: '600'}}>TOTAL PRICE:   ${parseInt(props.totalPrice).toFixed(2)}</Typography>
+            <Typography style={{marginLeft: '16px', fontWeight: '600'}}>TOTAL PRICE:   ${parseFloat(props.totalPrice).toFixed(2)}</Typography>
         </div>
     );
 }
@@ -25,6 +25,8 @@ const OrderInfo = () => {
         ingredients: state.burgerBuilder.ingredients,
         totalPrice: state.burgerBuilder.totalPrice,
     }));
+
+    console.log('orderInfo:', totalPrice);
 
     let transformed = Object.keys(ingredients).map(igKey => {
         // the number of each ingredient --> the length of an array

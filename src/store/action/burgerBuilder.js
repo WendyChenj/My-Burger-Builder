@@ -32,9 +32,10 @@ export const fetchIngredients = () => {
     };
 }
 
-export const reorderBurger = (ingredients) => {
+export const reorderBurger = (ingredients, totalPrice) => {
     return {
         type: actionTypes.REORDER_BURGER,
         ingredients: ingredients,
+        totalPrice: totalPrice,
     }
 }
