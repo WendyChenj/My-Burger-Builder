@@ -14,7 +14,7 @@ const Orders = () => {
         isAuthenticate: state.auth.token !== null,
     }));
 
-    const dispatch = useDispatch();
+    const dispatch = useDispatch(); 
 
     
     useEffect(() => {
@@ -24,9 +24,9 @@ const Orders = () => {
 
     let history = useHistory();
 
-    const reorderHandler = (event, ings) => {
+    const reorderHandler = (event, ings, totalPrice) => {
         event.preventDefault();
-        dispatch(reorderBurger(ings));
+        dispatch(reorderBurger(ings, totalPrice));
         history.push('/checkOut');
     }
 
@@ -54,7 +54,7 @@ const Orders = () => {
             return (
                 <Grid item xs={12} sm={12} md={6} lg={4}  key={ord.id}>
                     <OrderCard  ingredients={ord.ingredients} price={ord.price} 
-                       reorder={(event) => reorderHandler(event, ord.ingredients)} 
+                       reorder={(event) => reorderHandler(event, ord.ingredients, ord.price)} 
                     />
                 </Grid>
             );
