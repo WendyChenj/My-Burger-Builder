@@ -1,4 +1,4 @@
-# MY BURGER BUILDER
+# MY BURGER BUILDER E-COMMERCE APPLICATION
 
 My burger builder application aims to allow customers to create their own burger by adding or removing ingredients based on their own flavour. 
 [https://react-my-burger-1f18b.web.app/]
