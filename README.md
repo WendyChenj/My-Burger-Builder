@@ -28,3 +28,4 @@ Just simple click the reorder button on orders page and place your favourite bur
 
 ![alt-test](https://github.com/WendyChenj/My-Burger-Builder/blob/media/reorder.gif)
 
+@ Happy Coding - WENDY
