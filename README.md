@@ -1,9 +1,9 @@
 # MY BURGER BUILDER
 
-My burger builder application aims to allow customers to create their own burger by adding or removing ingredients based on their own flavour. 
+My burger builder application aims to allow customers to create their own burger by adding or removing ingredients based on their own flavour. The customer information and order data are stored in the database. Users are required to log in to place an order or check their history orders.
 [https://react-my-burger-1f18b.web.app/]
 
-This project was built using React Hook, Redux, react-router, axios and Material-UI.
+This project was built using React Hook, Redux, react-router, axios, Material-UI and Firebase.
 
 ### DEMO
 
