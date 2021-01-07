@@ -1,9 +1,13 @@
-# MY BURGER BUILDER
+# MY BURGER BUILDER E-COMMERCE APPLICATION
 
 My burger builder application aims to allow customers to create their own burger by adding or removing ingredients based on their own flavour. The customer information and order data are stored in the database. Users are required to log in to place an order or check their history orders.
 [https://react-my-burger-1f18b.web.app/]
 
 This project was built using React Hook, Redux, react-router, axios, Material-UI and Firebase.
+<<<<<<< HEAD
+=======
+Welcome to play around with this website using account test@123.com; password: test123
+>>>>>>> 1adf2ee0b48d3a5f87defd0a40e57c28d9cc3177
 
 ### DEMO
 
@@ -27,3 +31,4 @@ Just simple click the reorder button on orders page and place your favourite bur
 
 ![alt-test](https://github.com/WendyChenj/My-Burger-Builder/blob/media/reorder.gif)
 
+@ Happy Coding - WENDY
