@@ -4,10 +4,7 @@ My burger builder application aims to allow customers to create their own burger
 [https://react-my-burger-1f18b.web.app/]
 
 This project was built using React Hook, Redux, react-router, axios, Material-UI and Firebase.
-<<<<<<< HEAD
-=======
 Welcome to play around with this website using account test@123.com; password: test123
->>>>>>> 1adf2ee0b48d3a5f87defd0a40e57c28d9cc3177
 
 ### DEMO
 
