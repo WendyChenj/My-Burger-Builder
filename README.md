@@ -8,7 +8,7 @@ Welcome to play around with this website using account test@123.com; password: t
 
 ### DEMO
 
-Gif images below are provided in screen size 768*1024. Please feel free to open the website on different devices.
+Gif images provided below are in screen size 768*1024. Please feel free to open the website on different devices.
 
 ### Log in
 
